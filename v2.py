@@ -1,27 +1,33 @@
 import pygame
 from random import randint
 from time import sleep
+import shutil
+
+term_columns, term_rows = shutil.get_terminal_size()
 
 pygame.init()
 
-ROWS, COLS = 40, 40
 BUFFER_SIZE = 10
+ROWS = term_rows - BUFFER_SIZE - 10
+ROWS = ROWS // 2
+COLS = term_columns - BUFFER_SIZE - 5
+print(ROWS, COLS)
 
 
 def print_board(board):
-    vertical_buffer = "".join(["\n"] * BUFFER_SIZE)
-    horizontal_buffer = "".join([" "] * BUFFER_SIZE)
+    vertical_buffer = "\n" * BUFFER_SIZE
+    horizontal_buffer = " " * BUFFER_SIZE
 
     print(vertical_buffer)
-    print(horizontal_buffer + "".join(["-"] * (COLS + 1)) + horizontal_buffer)
+    print(horizontal_buffer + "-" * (COLS + 1) + horizontal_buffer)
     for row in board:
         print(horizontal_buffer + "|" + row + "|" + horizontal_buffer)
-    print(horizontal_buffer + "".join(["-"] * (COLS + 1)) + horizontal_buffer)
+    print(horizontal_buffer + "-" * (COLS + 1) + horizontal_buffer)
     print(vertical_buffer)
 
 
 def update_board(snake, berries):
-    board = ["".join(["."] * ROWS)] * COLS
+    board = ["." * COLS] * ROWS
     for i, part in enumerate(snake):
         if i == 0:
             board[part[0]] = (
